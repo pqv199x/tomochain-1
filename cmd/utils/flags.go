@@ -626,11 +626,12 @@ func setBootstrapNodes(ctx *cli.Context, cfg *p2p.Config) {
 	// 	urls = params.RinkebyBootnodes
 	case cfg.BootstrapNodes != nil:
 		return // already set, don't apply defaults.
-	case !ctx.GlobalIsSet(BootnodesFlag.Name):
+	case !ctx.GlobalIsSet(BootnodesFlag.Name) && !ctx.GlobalBool(TomoTestnetFlag.Name):
 		urls = params.MainnetBootnodes
-	case ctx.GlobalBool(TomoTestnetFlag.Name):
+	case !ctx.GlobalIsSet(BootnodesFlag.Name) && ctx.GlobalBool(TomoTestnetFlag.Name):
 		urls = params.TestnetBootnodes
 	}
+
 	cfg.BootstrapNodes = make([]*discover.Node, 0, len(urls))
 	for _, url := range urls {
 		node, err := discover.ParseNode(url)

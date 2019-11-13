@@ -324,12 +324,13 @@ func DefaultGenesisBlock() *Genesis {
 // DefaultTestnetGenesisBlock returns the Ropsten network genesis block.
 func DefaultTestnetGenesisBlock() *Genesis {
 	return &Genesis{
-		Config:     params.TestnetChainConfig,
-		Nonce:      66,
-		ExtraData:  hexutil.MustDecode("0x3535353535353535353535353535353535353535353535353535353535353535"),
-		GasLimit:   16777216,
-		Difficulty: big.NewInt(1048576),
-		Alloc:      decodePrealloc(testnetAllocData),
+		Config:     params.TomoTestnetChainConfig,
+		Nonce:      0,
+		ExtraData:  hexutil.MustDecode("0x00000000000000000000000000000000000000000000000000000000000000008a97753311aeafacfd76a68cf2e2a9808d3e65e8d76fd76f7101811726dce9e43c2617706a4c45c8ffc679dcdf444d2eeb0491a998e7902b411ccf200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"),
+		GasLimit:   4700000,
+		Difficulty: big.NewInt(1),
+		Alloc:      DecodeTestnet(),
+		Timestamp: 1544771829,
 	}
 }
 
@@ -388,4 +389,10 @@ func DecodeMainnet() GenesisAlloc {
 	mainnetAlloc := GenesisAlloc{}
 	json.Unmarshal([]byte(tomoAllocData), &mainnetAlloc)
 	return mainnetAlloc
+}
+
+func DecodeTestnet() GenesisAlloc {
+	testnetAlloc := GenesisAlloc{}
+	json.Unmarshal([]byte(tomoTestnetAlloc), &testnetAlloc)
+	return testnetAlloc
 }
